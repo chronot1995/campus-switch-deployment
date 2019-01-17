@@ -1,0 +1,163 @@
+node:
+  closet-switch01:
+    mlag:
+      address:
+      backup-ip:
+      members:
+      peer-ip:
+      sysmac:
+      interfaces:
+        bond01:
+          clagid:
+          members:
+          mode:
+          vlans:
+    overlay:
+      anycast-ip:
+      vxlan:
+        vni:
+          vlan:
+    ports:
+      - swp7
+      - swp11
+      - swp12
+    lacp:
+      interfaces:
+        members:
+    switching:
+      bridge:
+        - swp7
+      interface:
+        mode:
+        vlans:
+      vlans:
+        - 11
+    routing:
+      lo: 10.11.11.11/32
+      ospf:
+        area:
+        neighbors:
+      bgp:
+        asn: 65111
+        underlay:
+          external:
+            peers:
+              - swp11
+              - swp12
+          internal:
+            peers:
+      svi:
+        vlansvi:
+          ip:
+          vlan:
+          vrrp:
+            mac:
+            ip:
+  closet-switch02:
+    mlag:
+      address:
+      backup-ip:
+      members:
+      peer-ip:
+      sysmac:
+      interfaces:
+        bond01:
+          clagid:
+          members:
+          mode:
+          vlans:
+    overlay:
+      anycast-ip:
+      vxlan:
+        vni:
+          vlan:
+    ports:
+      - swp7
+      - swp21
+      - swp22
+    lacp:
+      interfaces:
+        members:
+    switching:
+      bridge:
+        - swp7
+      interface:
+        mode:
+        vlans:
+      vlans:
+        - 11
+    routing:
+      lo: 10.22.22.22/32
+      ospf:
+        area:
+        neighbors:
+      bgp:
+        asn: 65222
+        underlay:
+          external:
+            peers:
+              - swp21
+              - swp22
+          internal:
+            peers:
+      svi:
+        vlansvi:
+          ip:
+          vlan:
+          vrrp:
+            mac:
+            ip:
+  closet-switch03:
+    mlag:
+      address:
+      backup-ip:
+      members:
+      peer-ip:
+      sysmac:
+      interfaces:
+        bond01:
+          clagid:
+          members:
+          mode:
+          vlans:
+    overlay:
+      anycast-ip:
+      vxlan:
+        vni:
+          vlan:
+    ports:
+      - swp7
+      - swp31
+      - swp32
+    lacp:
+      interfaces:
+        members:
+    switching:
+      bridge:
+        - swp7
+      interface:
+        mode:
+        vlans:
+      vlans:
+        - 11
+    routing:
+      lo: 10.33.33.33/32
+      ospf:
+        area:
+        neighbors:
+      bgp:
+        asn: 65333
+        underlay:
+          external:
+            peers:
+              - swp31
+              - swp32
+          internal:
+            peers:
+      svi:
+        vlansvi:
+          ip: 192.168.33.1/24
+          vlan: 11
+          vrrp:
+            mac:
+            ip:

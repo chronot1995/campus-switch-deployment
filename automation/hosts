@@ -1,0 +1,20 @@
+# Created by Topology-Converter v4.6.8
+#    Template Revision: v4.6.8
+#    https://github.com/cumulusnetworks/topology_converter
+#    using topology data
+
+[aggswitches]
+agg-switch01 ansible_host=192.168.200.1
+agg-switch02 ansible_host=192.168.200.2
+wan-rtr ansible_host=192.168.200.10
+
+[closetswitches]
+closet-switch01 ansible_host=192.168.200.11
+closet-switch02 ansible_host=192.168.200.12
+closet-switch03 ansible_host=192.168.200.13
+
+[all:vars]
+ansible_user=cumulus
+ansible_become_pass=CumulusLinux!
+ansible_password=CumulusLinux!
+ansible_ssh_pass=CumulusLinux!

@@ -1,0 +1,20 @@
+graph training {
+ "agg-switch01" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.2"]
+ "agg-switch02" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.3"]
+ "wan-rtr" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.10"]
+ "closet-switch01" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.11"]
+ "closet-switch02" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.12"]
+ "closet-switch03" [function="leaf" os="CumulusCommunity/cumulus-vx" version="3.7.2" memory="768" config="./helper_scripts/extra_switch_config.sh" mgmt_ip="192.168.200.13"]
+
+ "wan-rtr":"swp40" -- "agg-switch01":"swp40"
+ "wan-rtr":"swp41" -- "agg-switch02":"swp40"
+ "agg-switch01":"swp1" -- "agg-switch02":"swp1"
+ "agg-switch01":"swp2" -- "agg-switch02":"swp2"
+ "closet-switch01":"swp11" -- "agg-switch01":"swp11"
+ "closet-switch01":"swp12" -- "agg-switch02":"swp11"
+ "closet-switch02":"swp21" -- "agg-switch01":"swp22"
+ "closet-switch02":"swp22" -- "agg-switch02":"swp22"
+ "closet-switch03":"swp31" -- "agg-switch01":"swp33"
+ "closet-switch03":"swp32" -- "agg-switch02":"swp33"
+
+ }

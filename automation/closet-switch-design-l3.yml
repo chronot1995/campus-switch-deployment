@@ -1,0 +1,13 @@
+#####
+# Host config for closet-switch-design-l3
+#####
+
+- hosts: aggswitches
+  become: true
+  roles:
+  - aggswitches
+
+- hosts: closetswitches
+  become: true
+  roles:
+  - closetswitches
