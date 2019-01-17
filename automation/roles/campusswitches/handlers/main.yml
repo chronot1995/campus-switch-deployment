@@ -20,9 +20,9 @@
 - name: restart ntpd
   service:
     name: ntp
-  state: restarted
+    state: restarted
 
 - name: restart dhcrelay
   service:
     name: dhcrelay
-  state: restarted
+    state: restarted
