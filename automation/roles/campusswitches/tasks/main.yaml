@@ -6,12 +6,12 @@
     backup: yes
   notify: restart frr
 
-- name: Copy FRR configuration
-  template:
-    src: frr.j2
-    dest: /etc/frr/frr.conf
-    backup: yes
-  notify: reload frr
+#- name: Copy FRR configuration
+#  template:
+#    src: frr.j2
+#    dest: /etc/frr/frr.conf
+#    backup: yes
+#  notify: reload frr
 
 - name: Initial Management VRF setup
   nclu:
