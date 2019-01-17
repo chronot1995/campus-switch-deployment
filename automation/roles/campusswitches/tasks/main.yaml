@@ -20,3 +20,17 @@
     commands:
       - add interface eth0 vrf mgmt
       - add hostname "{{ inventory_hostname }}"
+
+- name: Front-Facing Port Configuration
+  nclu:
+    commit: true
+    description: "Front-Facing Port Configuration"
+    commands:
+      - add interface swp1-swp46
+
+- name: VLAN Configuration
+  nclu:
+    commit: true
+    description: "Front-Facing Port Configuration"
+    commands:
+      - add vlan 100,200,300,500
