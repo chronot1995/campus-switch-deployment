@@ -42,12 +42,20 @@
     commands:
       - add interface swp1-29
 
-- name: VLAN Configuration
+- name: Adding VLAN Configuration
   nclu:
     commit: true
-    description: "Front-Facing Port Configuration"
+    description: "Adding VLAN Configuration"
     commands:
       - add vlan 100,200,300,500
+
+- name: Bridge and Phone VLAN Configurations
+  nclu:
+    commit: true
+    description: "Bridge and Phone VLAN Configurations"
+    commands:
+      - add interface swp1-29 bridge pvid 100
+      - add interface swp1-29 bridge vids 200
 
 - name: Copy Hostapd / 802.1x configuration
   copy:
