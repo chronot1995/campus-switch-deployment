@@ -21,3 +21,8 @@
   service:
     name: ntp
   state: restarted
+
+- name: restart dhcrelay
+  service:
+    name: dhcrelay
+  state: restarted

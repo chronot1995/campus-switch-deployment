@@ -6,6 +6,13 @@
     backup: yes
   notify: restart ntpd
 
+- name: Copy DHCP Relay configuration file
+  copy:
+    src: isc-dhcp-relay
+    dest: /etc/default/isc-dhcp-relay
+    backup: yes
+  notify: restart dhcrelay
+
 - name: Copy FRR daemons file
   copy:
     src: daemons

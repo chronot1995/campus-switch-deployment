@@ -1,0 +1,4 @@
+SERVERS="10.192.75.72 10.192.27.174"
+#INTF_CMD="-i swp47 -i swp3 -i swp3.200 -i bridge-vlan100 -i bridge-vlan200 -i bridge-vlan300"
+INTF_CMD=""
+OPTIONS="--loglevel-debug"
