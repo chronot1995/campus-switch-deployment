@@ -1,5 +1,5 @@
 node:
-  closet-switch01:
+  campus-switch01:
     routing:
       lo: 10.11.11.11/32
       bgp:
