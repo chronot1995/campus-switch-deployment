@@ -2,7 +2,7 @@
 # Created by Topology-Converter v4.6.8
 #    Template Revision: v4.6.8
 #    https://github.com/cumulusnetworks/topology_converter
-#    using topology data from: closet-switch-design-l3.dot
+#    using topology data from: campus-switch-deployment.dot
 
 echo "################################################"
 echo "  Running Automatic Management Server Setup..."
@@ -15,8 +15,8 @@ echo " Detected vagrant user is: $username"
 #       KNOBS
 #######################
 
-REPOSITORY="https://github.com/CumulusNetworks/closet-switch-design-l3"
-REPONAME="closet-switch-design-l3"
+REPOSITORY="https://github.com/CumulusNetworks/campus-switch-deployment"
+REPONAME="campus-switch-deployment"
 
 #Install Automation Tools
 puppet=0
