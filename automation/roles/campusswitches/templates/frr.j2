@@ -8,18 +8,12 @@ service integrated-vtysh-config
 log syslog informational
 !
 !
-{% if node[inventory_hostname]["routing"]["bgp"]["asn"] is defined %}
 router bgp {{ node[inventory_hostname]["routing"]["bgp"]["asn"] }}
-{% if node[inventory_hostname]["routing"]["bgp"]["asn"] is defined %}
  bgp router-id {{ node[inventory_hostname]["routing"]["lo"]|replace("/32", "")}}
-{% endif -%}
  bgp bestpath as-path multipath-relax
-{% if node[inventory_hostname].routing.bgp.underlay.external.peers is not none %}
 {% for interface in node[inventory_hostname]["routing"]["bgp"]["underlay"]["external"]["peers"] %}
  neighbor {{interface}} interface remote-as external
 {% endfor -%}
-{% endif -%}
-{% endif -%}
  !
  address-family ipv4 unicast
   redistribute connected
