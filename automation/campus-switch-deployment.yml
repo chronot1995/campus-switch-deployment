@@ -1,0 +1,8 @@
+#####
+# Host config for campus-switch-deployment
+#####
+
+- hosts: campusswitches
+  become: true
+  roles:
+  - campusswitches
