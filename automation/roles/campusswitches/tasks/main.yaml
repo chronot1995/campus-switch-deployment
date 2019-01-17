@@ -34,3 +34,10 @@
     description: "Front-Facing Port Configuration"
     commands:
       - add vlan 100,200,300,500
+
+- name: Copy Hostapd / 802.1x configuration
+  copy:
+    src: hostapd.conf
+    dest: /etc/hostapd.conf
+    backup: yes
+  notify: restart hostapd

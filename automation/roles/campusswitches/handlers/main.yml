@@ -11,3 +11,8 @@
   service:
     name: frr
     state: reloaded
+
+- name: restart hostapd
+  service:
+    name: hostapd
+    state: restarted
