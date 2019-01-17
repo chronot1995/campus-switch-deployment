@@ -26,7 +26,7 @@
     commit: true
     description: "Front-Facing Port Configuration"
     commands:
-      - add interface swp1-swp29
+      - add interface swp1-29
 
 - name: VLAN Configuration
   nclu:
