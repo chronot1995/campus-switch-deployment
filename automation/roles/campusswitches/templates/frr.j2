@@ -8,9 +8,9 @@ service integrated-vtysh-config
 log syslog informational
 !
 !
-{% if node[inventory_hostname].routing.bgp.asn is not none %}
+{% if node[inventory_hostname].routing.bgp.asn is defined %}
 router bgp {{ node[inventory_hostname]["routing"]["bgp"]["asn"] }}
-{% if node[inventory_hostname].routing.bgp.asn is not none %}
+{% if node[inventory_hostname].routing.bgp.asn is defined %}
  bgp router-id {{ node[inventory_hostname]["routing"]["lo"]|replace("/32", "")}}
 {% endif -%}
  bgp bestpath as-path multipath-relax
