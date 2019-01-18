@@ -77,3 +77,22 @@
     regexp: '^#Banner'
     line: 'Banner /etc/issue.net'
   notify: restart ssh
+
+- name: SNMP Configuration
+  nclu:
+    commit: true
+    description: "SNMP Configuration"
+    commands:
+      - add snmp-server listening-address all
+      - add snmp-server readonly-community dst-publ1c access any
+      - add snmp-server readonly-community dst_publ1c access any
+      - add snmp-server readonly-community public access 10.0.0.0/8
+      - add snmp-server system-contact Curtis Owings clowings@dstsystems.com
+      - add snmp-server system-location CT7 MAN Room
+      - add snmp-server system-name "{{ inventory_hostname }}"
+      - add snmp-server trap-destination 10.192.133.174 community-password public version 2c
+      - add snmp-server trap-destination 10.194.240.132 community-password public version 2c
+      - add snmp-server trap-destination 10.194.240.99 community-password public version 2c
+      - add snmp-server trap-destination 10.42.144.191 community-password dst_publ1c version 2c
+      - add snmp-server trap-link-down check-frequency 5
+      - add snmp-server trap-link-up check-frequency 5
