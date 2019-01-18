@@ -16,7 +16,7 @@
 timeout=10
 
 secret=tacacskey
-server=192.168.0.254
+server=10.192.27.174
 
 # If the management network is in a vrf, set this variable to the vrf name.
 # This would usually be "mgmt"
