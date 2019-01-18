@@ -1,5 +1,5 @@
 - name: install tacacs client
-  apt: name=tacplus-client state=installed update_cache=yes
+  apt: name=tacplus-client state=present update_cache=yes
 
 - name: Configure Authorization
   copy: src=tacplus_servers dest=/etc/tacplus_servers
