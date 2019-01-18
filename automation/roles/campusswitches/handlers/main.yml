@@ -26,3 +26,8 @@
   service:
     name: dhcrelay
     state: restarted
+
+- name: restart ssh
+  service:
+    name: ssh
+    state: restarted

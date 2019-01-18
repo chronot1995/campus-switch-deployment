@@ -13,6 +13,13 @@
     backup: yes
   notify: restart dhcrelay
 
+- name: Copy SSH Banner
+  copy:
+    src: issue.net
+    dest: /etc/issue.net
+    backup: yes
+  notify: restart dhcrelay
+
 - name: Copy FRR daemons file
   copy:
     src: daemons
@@ -63,3 +70,10 @@
     dest: /etc/hostapd.conf
     backup: yes
   notify: restart hostapd
+
+- name: Setup SSH Banner
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#Banner'
+    line: 'Banner /etc/issue.net'
+  notify: restart ssh
