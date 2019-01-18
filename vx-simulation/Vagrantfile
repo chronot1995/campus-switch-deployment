@@ -55,7 +55,7 @@ if grep -q -i 'cumulus' /etc/lsb-release &> /dev/null; then
             echo "  INFO: Detected Cumulus Linux v$DISTRIB_RELEASE Release"
             if [[ $DISTRIB_RELEASE =~ ^3.[1-9].* ]]; then
                 echo "### Fixing ONIE DHCP to avoid Vagrant Interface ###"
-                echo "     Note: Installing from ONIE will undo these changes." 
+                echo "     Note: Installing from ONIE will undo these changes."
                 mkdir /tmp/foo
                 mount LABEL=ONIE-BOOT /tmp/foo
                 sed -i 's/eth0/eth1/g' /tmp/foo/grub/grub.cfg
@@ -91,9 +91,9 @@ Vagrant.configure("2") do |config|
 
   ##### DEFINE VM for oob-mgmt-server #####
   config.vm.define "oob-mgmt-server" do |device|
-    
-    device.vm.hostname = "oob-mgmt-server" 
-    
+
+    device.vm.hostname = "oob-mgmt-server"
+
     device.vm.box = "yk0/ubuntu-xenial"
     device.vm.provider "virtualbox" do |v|
       v.name = "#{simid}_oob-mgmt-server"
@@ -108,11 +108,12 @@ Vagrant.configure("2") do |config|
     # NETWORK INTERFACES
       # link for eth1 --> oob-mgmt-switch:swp1
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net33", auto_config: false , :mac => "443839000040"
-      
+
 
     device.vm.provider "virtualbox" do |vbox|
       vbox.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
       vbox.customize ["modifyvm", :id, "--nictype1", "virtio"]
+      vbox.customize ["modifyvm", :id, "--nictype2", "virtio"]
     end
 
     # Fixes "stdin: is not a tty" and "mesg: ttyname failed : Inappropriate ioctl for device"  messages --> https://github.com/mitchellh/vagrant/issues/1673
@@ -145,7 +146,7 @@ device.vm.provision :shell , :inline => <<-udev_rule
 echo "  INFO: Adding UDEV Rule: 44:38:39:00:00:40 --> eth1"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:40", NAME="eth1", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 udev_rule
-     
+
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
 echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
@@ -161,9 +162,9 @@ end
 
   ##### DEFINE VM for oob-mgmt-switch #####
   config.vm.define "oob-mgmt-switch" do |device|
-    
-    device.vm.hostname = "oob-mgmt-switch" 
-    
+
+    device.vm.hostname = "oob-mgmt-switch"
+
     device.vm.box = "CumulusCommunity/cumulus-vx"
     device.vm.provider "virtualbox" do |v|
       v.name = "#{simid}_oob-mgmt-switch"
@@ -178,13 +179,13 @@ end
     # NETWORK INTERFACES
       # link for swp1 --> oob-mgmt-server:eth1
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net33", auto_config: false , :mac => "44383900003f"
-      
+
       # link for swp2 --> agg-switch01:eth0
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net34", auto_config: false , :mac => "443839000041"
-      
+
       # link for swp3 --> campus-switch01:eth0
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net35", auto_config: false , :mac => "443839000043"
-      
+
 
     device.vm.provider "virtualbox" do |vbox|
       vbox.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
@@ -228,7 +229,7 @@ udev_rule
 echo "  INFO: Adding UDEV Rule: 44:38:39:00:00:43 --> swp3"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:43", NAME="swp3", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 udev_rule
-     
+
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
 echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
@@ -244,9 +245,9 @@ end
 
   ##### DEFINE VM for campus-switch01 #####
   config.vm.define "campus-switch01" do |device|
-    
-    device.vm.hostname = "campus-switch01" 
-    
+
+    device.vm.hostname = "campus-switch01"
+
     device.vm.box = "CumulusCommunity/cumulus-vx"
     device.vm.box_version = "3.7.2"
     device.vm.provider "virtualbox" do |v|
@@ -262,100 +263,100 @@ end
     # NETWORK INTERFACES
       # link for eth0 --> oob-mgmt-switch:swp3
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net35", auto_config: false , :mac => "443839000044"
-      
+
       # link for swp1 --> agg-switch01:swp1
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net12", auto_config: false , :mac => "443839000017"
-      
+
       # link for swp2 --> agg-switch01:swp2
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net24", auto_config: false , :mac => "44383900002f"
-      
+
       # link for swp3 --> agg-switch01:swp3
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net6", auto_config: false , :mac => "44383900000b"
-      
+
       # link for swp4 --> agg-switch01:swp4
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net28", auto_config: false , :mac => "443839000037"
-      
+
       # link for swp5 --> agg-switch01:swp5
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net29", auto_config: false , :mac => "443839000039"
-      
+
       # link for swp6 --> agg-switch01:swp6
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net30", auto_config: false , :mac => "44383900003b"
-      
+
       # link for swp7 --> agg-switch01:swp7
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net17", auto_config: false , :mac => "443839000021"
-      
+
       # link for swp8 --> agg-switch01:swp8
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net22", auto_config: false , :mac => "44383900002b"
-      
+
       # link for swp9 --> agg-switch01:swp9
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net20", auto_config: false , :mac => "443839000027"
-      
+
       # link for swp10 --> agg-switch01:swp10
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net5", auto_config: false , :mac => "443839000009"
-      
+
       # link for swp11 --> agg-switch01:swp11
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net11", auto_config: false , :mac => "443839000015"
-      
+
       # link for swp12 --> agg-switch01:swp12
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net13", auto_config: false , :mac => "443839000019"
-      
+
       # link for swp13 --> agg-switch01:swp13
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net3", auto_config: false , :mac => "443839000005"
-      
+
       # link for swp14 --> agg-switch01:swp14
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net10", auto_config: false , :mac => "443839000013"
-      
+
       # link for swp15 --> agg-switch01:swp15
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net8", auto_config: false , :mac => "44383900000f"
-      
+
       # link for swp16 --> agg-switch01:swp16
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net14", auto_config: false , :mac => "44383900001b"
-      
+
       # link for swp17 --> agg-switch01:swp17
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net26", auto_config: false , :mac => "443839000033"
-      
+
       # link for swp18 --> agg-switch01:swp18
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net27", auto_config: false , :mac => "443839000035"
-      
+
       # link for swp19 --> agg-switch01:swp19
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net19", auto_config: false , :mac => "443839000025"
-      
+
       # link for swp20 --> agg-switch01:swp20
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net18", auto_config: false , :mac => "443839000023"
-      
+
       # link for swp21 --> agg-switch01:swp21
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net23", auto_config: false , :mac => "44383900002d"
-      
+
       # link for swp22 --> agg-switch01:swp22
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net16", auto_config: false , :mac => "44383900001f"
-      
+
       # link for swp23 --> agg-switch01:swp23
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net7", auto_config: false , :mac => "44383900000d"
-      
+
       # link for swp24 --> agg-switch01:swp24
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net31", auto_config: false , :mac => "44383900003d"
-      
+
       # link for swp25 --> agg-switch01:swp25
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net21", auto_config: false , :mac => "443839000029"
-      
+
       # link for swp26 --> agg-switch01:swp26
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net2", auto_config: false , :mac => "443839000003"
-      
+
       # link for swp27 --> agg-switch01:swp27
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net1", auto_config: false , :mac => "443839000001"
-      
+
       # link for swp28 --> agg-switch01:swp28
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net15", auto_config: false , :mac => "44383900001d"
-      
+
       # link for swp29 --> agg-switch01:swp29
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net9", auto_config: false , :mac => "443839000011"
-      
+
       # link for swp47 --> agg-switch01:swp47
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net4", auto_config: false , :mac => "443839000007"
-      
+
       # link for swp48 --> agg-switch01:swp48
       device.vm.network "private_network", virtualbox__intnet: "#{simid}_net25", auto_config: false , :mac => "443839000031"
-      
+
 
     device.vm.provider "virtualbox" do |vbox|
       vbox.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
@@ -542,7 +543,7 @@ udev_rule
 echo "  INFO: Adding UDEV Rule: 44:38:39:00:00:31 --> swp48"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{address}=="44:38:39:00:00:31", NAME="swp48", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
 udev_rule
-     
+
       device.vm.provision :shell , :inline => <<-vagrant_interface_rule
 echo "  INFO: Adding UDEV Rule: Vagrant interface = vagrant"
 echo 'ACTION=="add", SUBSYSTEM=="net", ATTR{ifindex}=="2", NAME="vagrant", SUBSYSTEMS=="pci"' >> /etc/udev/rules.d/70-persistent-net.rules
