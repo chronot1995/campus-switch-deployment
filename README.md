@@ -1,8 +1,8 @@
-## closet-switch-design-l3
+## campus-switch-deployment
 
 ### Summary:
 
-This is an Ansible demo which configures two Cumulus VX switches with BGP and NetQ using J2 / Jinja2 templates
+This is an Ansible demo which configures a Cumulus VX switch with standard campus features using Jinja2 and the NCLU Ansible module
 
 ### Network Diagram:
 
@@ -51,89 +51,7 @@ First, make sure that the following is currently running on your machine:
 
     ```./provision.sh```
 
-This will bring run the automation script and configure the two switches with BGP.
 
-### Troubleshooting
-
-Helpful NCLU troubleshooting commands:
-
-- net show route
-- net show bgp summary
-- net show interface | grep -i UP
-- net show lldp
-
-Helpful Linux troubleshooting commands:
-
-- ip route
-- ip link show
-- ip address <interface>
-
-The BGP Summary command will show if each switch had formed a neighbor relationship:
-
-```
-cumulus@switch01:mgmt-vrf:~$ net show bgp summary
-
-show bgp ipv4 unicast summary
-=============================
-BGP router identifier 10.1.1.1, local AS number 65111 vrf-id 0
-BGP table version 3
-RIB entries 5, using 760 bytes of memory
-Peers 2, using 39 KiB of memory
-
-Neighbor        V         AS MsgRcvd MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd
-switch02(swp1)  4      65222       8       8        0    0    0 00:00:09            2
-switch02(swp2)  4      65222       8       9        0    0    0 00:00:09            2
-
-Total number of neighbors 2
-
-```
-
-One should see that the corresponding loopback route is installed with two next hops / ECMP:
-
-```
-cumulus@switch01:mgmt-vrf:~$ net show route
-
-show ip route
-=============
-Codes: K - kernel route, C - connected, S - static, R - RIP,
-       O - OSPF, I - IS-IS, B - BGP, P - PIM, E - EIGRP, N - NHRP,
-       T - Table, v - VNC, V - VNC-Direct, A - Babel,
-       > - selected route, * - FIB route
-
-K>* 0.0.0.0/0 [0/0] via 10.0.2.2, vagrant, 00:00:29
-C>* 10.0.2.0/24 is directly connected, vagrant, 00:00:29
-C>* 10.1.1.1/32 is directly connected, lo, 00:00:29
-B>* 10.2.2.2/32 [20/0] via fe80::4638:39ff:fe00:2, swp1, 00:00:25
-  *                    via fe80::4638:39ff:fe00:4, swp2, 00:00:25
-```
-
-NetQ allows us to see all of the BGP connections:
-
-```
-cumulus@switch01:mgmt-vrf:~$ netq show bgp
-Matching bgp records:
-Hostname         Neighbor                         VRF              ASN        Peer ASN   PfxRx        Last Changed
----------------- -------------------------------- ---------------- ---------- ---------- ------------ ----------------
-switch01         swp1(switch02)                   default          65111      65222      2/-/-        51.110938s
-switch01         swp2(switch02)                   default          65111      65222      2/-/-        51.110954s
-switch02         swp1(switch01)                   default          65222      65111      2/-/-        51.110959s
-switch02         swp2(switch01)                   default          65222      65111      2/-/-        51.110964s
-```
-
-NetQ also allows us to see how the demo is cabled up:
-
-```
-cumulus@switch01:mgmt-vrf:~$ netq show lldp
-Matching lldp records:
-Hostname    Interface    Peer Hostname    Peer Interface    Last Changed
-----------  -----------  ---------------  ----------------  --------------
-switch01    eth0         oob-mgmt-switch  swp3              47.961817s
-switch01    swp1         switch02         swp1              47.961724s
-switch01    swp2         switch02         swp2              47.961605s
-switch02    eth0         oob-mgmt-switch  swp4              49.970120s
-switch02    swp1         switch01         swp1              49.969953s
-switch02    swp2         switch01         swp2              49.969830s
-```
 
 
 ### Errata
