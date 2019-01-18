@@ -9,5 +9,22 @@ node:
             peers:
               - swp47
               - swp48
-          internal:
-            peers:
+#    switching:
+#      vlans:
+#        - "100"
+#        - "200"
+#        - "300"
+#        - "500"
+    svi:
+      vlan100:
+        ip: 10.203.177.1/24
+        vlan: 100
+      vlan200:
+        ip: 10.203.178.1/24
+        vlan: 200
+      vlan300:
+        ip: 10.203.235.1/24
+        vlan: 300
+      vlan500:
+        ip: 172.31.142.1/24
+        vlan: 500

@@ -49,12 +49,21 @@
     commands:
       - add interface swp1-29
 
-- name: Adding VLAN Configuration
-  nclu:
-    commit: true
-    description: "Adding VLAN Configuration"
-    commands:
-      - add vlan 100,200,300,500
+#- name: Adding VLAN Configuration
+#  nclu:
+#    commit: true
+#    description: "Adding VLAN Configuration"
+#    commands:
+#      - add vlan 100,200,300,500
+
+- name: Deploy SVI configuration
+    nclu:
+        commit: true
+        description: "Deploy SVI configuration"
+        template: |
+           add vlan {{ item.value.vlan }} ip address {{ item.value.ip }}
+    with_dict:
+     - "{{ node[inventory_hostname].routing.svi }}"
 
 - name: Bridge and Phone VLAN Configurations
   nclu:
