@@ -9,12 +9,6 @@ node:
             peers:
               - swp47
               - swp48
-#    switching:
-#      vlans:
-#        - "100"
-#        - "200"
-#        - "300"
-#        - "500"
       svi:
         vlan100:
           ip: 10.203.177.1/24
