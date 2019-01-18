@@ -56,10 +56,10 @@
 #    commands:
 #      - add vlan 100,200,300,500
 
-- name: Deploy SVI configuration
+- name: Deploy VLAN and SVI configurations
     nclu:
         commit: true
-        description: "Deploy SVI configuration"
+        description: "Deploy VLAN and SVI configurations"
         template: |
            add vlan {{ item.value.vlan }} ip address {{ item.value.ip }}
     with_dict:
