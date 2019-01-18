@@ -1,0 +1,33 @@
+#  Install this file as /etc/audisp/audisp-tac_plus.conf
+#  Servers are tried in the order listed, and once a server
+#  replies, no other servers are attempted, unless acct_all=1
+#  is given, in which case, the accounting message is sent to
+#  all TACACS+ servers.
+# 
+#  This configuration is similar to the libpam_tacplus configuration, but
+#  is maintained as a configuration file, since audisp doesn't
+#  support passing parameters.  Parameters must start in the first
+#  column, and parsing stops at the first whitespace
+#  The server IP address can be optionally followed by a ':' and a port
+#  number (server=1.1.1.1:49)
+
+# if set, errors and other issues are logged with syslog
+#debug=1
+
+acct_all=1
+
+# use any variables set in /etc/tacplus_servers to simplify configuration
+include=/etc/tacplus_servers
+#additional servers, or instead of /etc/tacplus_servers
+secret=tacacskey
+server=192.168.0.254
+
+# If the management network is in a vrf, set this variable to the vrf name.
+# This would usually be "mgmt"
+# When this variable is set, the connection to the TACACS+ accounting servers
+# will be made through the named vrf.
+#vrf=mgmt
+
+# It is recommended that you don't change this default
+service=shell
+

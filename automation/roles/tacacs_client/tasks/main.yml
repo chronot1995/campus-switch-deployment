@@ -1,0 +1,56 @@
+- name: install tacacs client
+  apt: name=tacplus-client state=installed update_cache=yes
+
+- name: Configure Authorization
+  copy: src=tacplus_servers dest=/etc/tacplus_servers
+
+- name: Configure Accounting
+  copy: src=tacplus_accounting dest=/etc/audisp/audisp-tac_plus.conf
+  notify: restart auditd
+
+- name: Setup NCLU to allow show for TACACS users
+  lineinfile:
+    path: /etc/netd.conf
+    regexp: '^groups_with_show'
+    line: 'groups_with_show = netshow, tacacs'
+  notify: restart nclu
+
+- name: Change Syslog Permissions so All Users can see Syslog
+  lineinfile:
+    path: /etc/rsyslog.conf
+    regexp: '^FileCreateMode'
+    line: 'FileCreateMode 0644'
+  notify: restart syslog
+
+- name: Change Permissions on Pre-existing log files
+  file:
+    path: /var/log
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+
+- name: Fix Permissions on /var/log/audit so it will be able to start
+  file:
+    path: /var/log/audit
+    mode: 0640
+    recurse: yes
+
+- name: Change Logrotate Permissions on FRR and Nginx so All Users can see logs that have rolled
+  lineinfile:
+    path: "/etc/logrotate.d/{{item}}"
+    regexp: '^create '
+    line: 'create 0644'
+  with_items:
+  - "nginx"
+  - "frr"
+
+- name: Create customizations for TACACS Priv 1 users to run Certain Diagnostic Commands
+  copy:
+    content: |
+      # Custom Modifications to support the needs of a TACACS privilege level 1 user.
+
+      # Common Programs
+      tacacs1         ALL=(ALL:ALL) NOPASSWD: /usr/cumulus/bin/cl-support
+      tacacs1         ALL=(ALL:ALL) NOPASSWD:NOEXEC: /usr/sbin/tcpdump
+      tacacs1         ALL=(ALL:ALL) NOPASSWD:NOEXEC: /usr/sbin/lldpctl
+    dest: /etc/sudoers.d/tacplus_privilege1
+    validate: /usr/sbin/visudo -cf %s

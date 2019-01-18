@@ -6,3 +6,4 @@
   become: true
   roles:
   - campusswitches
+  - tacacs_client

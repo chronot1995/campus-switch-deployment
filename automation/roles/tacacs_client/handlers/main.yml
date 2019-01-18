@@ -1,0 +1,10 @@
+- name: restart auditd
+  service: name=auditd state=restarted enabled=yes
+
+- name: restart nclu
+  service: name=netd state=restarted enabled=yes
+
+- name: restart syslog
+  service: name=rsyslog state=restarted enabled=yes
+
+
