@@ -4,9 +4,26 @@
 
 This is an Ansible demo which configures a Cumulus VX switch with standard campus features using Jinja2 and the NCLU Ansible module
 
+The purpose of this playbook is to show network engineers, new to automation, a demo to configure a campus switch solution.
+
 ### Network Diagram:
 
-![Network Diagram](https://github.com/chronot1995/closet-switch-design-l3/blob/master/documentation/closet-switch-design-l3.png)
+![Network Diagram](https://github.com/chronot1995/campus-switch-deployment/blob/master/documentation/campus-switch-deployment.png)
+
+### Tasks completed in this demo:
+
+1. Configures all of the front facing ports (1-29, in my example / it would be 1 - 4# in a real world design)
+2. Configures VLANs 100, 200, 300, and 500
+3. Sets the PVID and VID on all of the front facing ports for VoIP Phone access
+4. Sets up DHCP Relaying
+5. Sets up NTP
+6. Sets up 802.1X and MAB auth
+7. TACACS client install
+8. TACACS server + TACACS accounting setup
+9. Appropriate file permissions for TACACS user
+10. Deploy VLAN and SVI configurations using Infrastructure as Code
+11. SNMP Configuration
+12. SSH Banner
 
 ### Initializing the demo environment:
 
@@ -16,17 +33,17 @@ First, make sure that the following is currently running on your machine:
 
     https://www.vagrantup.com/
 
-2. Virtualbox > version 5.2.16
+2. Virtualbox > version 5.2.22
 
     https://www.virtualbox.org
 
 3. Copy the Git repo to your local machine:
 
-    ```git clone https://github.com/chronot1995/closet-switch-design-l3```
+    ```git clone https://github.com/chronot1995/campus-switch-deployment```
 
 4. Change directories to the following
 
-    ```closet-switch-design-l3```
+    ```campus-switch-deployment```
 
 6. Run the following:
 
@@ -41,17 +58,15 @@ First, make sure that the following is currently running on your machine:
 
 2. Copy the Git repo unto the oob-mgmt-server:
 
-    ```git clone https://github.com/chronot1995/closet-switch-design-l3```
+    ```git clone https://github.com/chronot1995/campus-switch-deployment```
 
 3. Change directories to the following
 
-    ```closet-switch-design-l3/automation```
+    ```campus-switch-deployment/automation```
 
 4. Run the following:
 
     ```./provision.sh```
-
-
 
 
 ### Errata
@@ -66,7 +81,7 @@ First, make sure that the following is currently running on your machine:
 
 3. The following command was used to run the Topology Converter within the vx-simulation directory:
 
-    ```python2 topology_converter.py closet-switch-design-l3.dot -c```
+    ```python2 topology_converter.py campus-switch-deployment.dot -c```
 
     After the above command is executed, the following configuration changes are necessary:
 
@@ -107,16 +122,7 @@ Add the following ```echo``` right before the end of the file.
     echo "      DONE!"
     echo "############################################"
 
-5. Within the Vagrantfile, it's important to make sure the oob-mgmt-server should have the following interface configuration:
-
-        device.vm.provider "virtualbox" do |vbox|
-          vbox.customize ['modifyvm', :id, '--nicpromisc2', 'allow-all']
-          vbox.customize ["modifyvm", :id, "--nictype1", "virtio"]
-          vbox.customize ["modifyvm", :id, "--nictype2", "virtio"]
-
-This will make sure that the virtio driver is used to improve the speed of downloading NetQ.
-
-6. helper_scripts > auto_mgmt_network > dhcpd.hosts:
+5. helper_scripts > auto_mgmt_network > dhcpd.hosts:
 
 Enable "option routers 192.168.200.254" and 8.8.8.8 as the DNS server:
 
@@ -128,7 +134,7 @@ Enable "option routers 192.168.200.254" and 8.8.8.8 as the DNS server:
           option www-server 192.168.200.254;
           option default-url = "http://192.168.200.254/onie-installer";
 
-7. helper_scripts > auto_mgmt_network > dhcpd.conf:
+6. helper_scripts > auto_mgmt_network > dhcpd.conf:
 
 This is an ancillary configuration to #6
 
