@@ -49,13 +49,6 @@
     commands:
       - add interface swp1-29
 
-#- name: Adding VLAN Configuration
-#  nclu:
-#    commit: true
-#    description: "Adding VLAN Configuration"
-#    commands:
-#      - add vlan 100,200,300,500
-
 - name: Deploy VLAN and SVI configurations
   nclu:
     commit: true
