@@ -98,3 +98,6 @@
       - add snmp-server trap-destination 10.42.144.191 community-password corp_publ1c version 2c
       - add snmp-server trap-link-down check-frequency 5
       - add snmp-server trap-link-up check-frequency 5
+
+- name: Flush Handlers, best practice
+  meta: flush_handlers
